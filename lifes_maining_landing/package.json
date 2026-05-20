@@ -1,0 +1,8 @@
+{
+  "name": "lifes-meaning-landing",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "build": "rm -rf dist && mkdir -p dist && cp -R ./*.html ./*.css ./*.js ./*.png ./*.mp4 dist"
+  }
+}

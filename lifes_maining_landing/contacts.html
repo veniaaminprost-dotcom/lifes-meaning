@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Контакты — Жизни Смысл</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <div class="toast-container" id="toast-container"></div>
+    <div class="modal-overlay hidden" id="auth-modal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeAuthModal()">✕</button>
+            <div class="modal-title">Войти</div>
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="login" onclick="switchTab('login')">Войти</button>
+                <button class="tab-btn" data-tab="register" onclick="switchTab('register')">Регистрация</button>
+            </div>
+            <div class="tab-content" data-tab="login">
+                <form onsubmit="handleLogin(event)">
+                    <div class="form-group"><label class="form-label">Email</label><input class="form-input"
+                            id="login-email" type="email" required></div>
+                    <div class="form-group"><label class="form-label">Пароль</label><input class="form-input"
+                            id="login-password" type="password" required></div>
+                    <button type="submit" class="btn btn-primary" style="width:100%">Войти</button>
+                </form>
+            </div>
+            <div class="tab-content" data-tab="register" style="display:none">
+                <form onsubmit="handleRegister(event)">
+                    <div class="form-group"><label class="form-label">Имя</label><input class="form-input" id="reg-name"
+                            type="text" required></div>
+                    <div class="form-group"><label class="form-label">Email</label><input class="form-input"
+                            id="reg-email" type="email" required></div>
+                    <div class="form-group"><label class="form-label">Пароль</label><input class="form-input"
+                            id="reg-password" type="password" minlength="6" required></div>
+                    <button type="submit" class="btn btn-primary" style="width:100%">Зарегистрироваться</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <header class="site-header">
+        <div class="container">
+            <div class="header-inner">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon"></div>
+                    <div class="logo-text">Жизни Смысл<span>Онлайн школа</span></div>
+                </a>
+                <nav class="nav-menu">
+                    <a href="index.html">Главная</a><a href="index.html#courses">Курсы</a>
+                    <a href="partners.html">Проекты</a><a href="about.html">О проекте</a><a href="contacts.html"
+                        class="active">Контакты</a>
+                </nav>
+                <div class="header-actions" id="header-auth-area"></div>
+                <button class="hamburger" onclick="toggleMobileMenu()"><span></span><span></span><span></span></button>
+            </div>
+        </div>
+    </header>
+
+    <nav class="mobile-nav" id="mobile-nav">
+        <a href="index.html">Главная</a><a href="index.html#courses">Курсы</a>
+        <a href="partners.html">Партнёры</a><a href="contacts.html">Контакты</a>
+    </nav>
+
+    <!-- HERO -->
+    <section style="background:var(--color-bg-warm);padding:60px 0;">
+        <div class="container" style="text-align:center;">
+            <nav class="breadcrumbs" style="justify-content:center;margin-bottom:24px;">
+                <a href="index.html">Главная</a><span class="sep">›</span><span class="current">Контакты</span>
+            </nav>
+            <h1 style="font-family:var(--font-serif);font-size:clamp(2rem,5vw,3.5rem);margin-bottom:16px;">Контакты</h1>
+            <p style="max-width:500px;margin:0 auto;color:var(--color-text-secondary);font-size:17px;">Свяжитесь с нами
+                — мы всегда рады ответить на вопросы</p>
+        </div>
+    </section>
+
+    <!-- CONTACT CONTENT -->
+    <section class="section">
+        <div class="container">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:60px;">
+                <!-- Contact info -->
+                <div>
+                    <h2 style="font-family:var(--font-serif);margin-bottom:32px;">Как с нами связаться</h2>
+
+                    <div style="display:flex;flex-direction:column;gap:20px;margin-bottom:40px;">
+                        <a href="tel:+79955977714"
+                            style="display:flex;align-items:center;gap:20px;padding:20px;background:var(--color-bg-card);border-radius:var(--radius-lg);text-decoration:none;color:inherit;">
+                            <div
+                                style="width:56px;height:56px;background:var(--color-bg-warm);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;">
+                                👤</div>
+                            <div>
+                                <div style="font-weight:600;font-size:15px;margin-bottom:2px;">Директор школы</div>
+                                <div style="font-size:15px;">Илья Ефремов</div>
+                                <div style="color:var(--color-primary);font-size:15px;">+7 995 597-77-14</div>
+                            </div>
+                        </a>
+
+                        <a href="mailto:lifesmeaning@yandex.ru"
+                            style="display:flex;align-items:center;gap:20px;padding:20px;background:var(--color-bg-card);border-radius:var(--radius-lg);text-decoration:none;color:inherit;">
+                            <div
+                                style="width:56px;height:56px;background:var(--color-bg-warm);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;">
+                                ✉</div>
+                            <div>
+                                <div style="font-weight:600;font-size:15px;margin-bottom:2px;">Email</div>
+                                <div style="color:var(--color-primary);font-size:15px;">lifesmeaning@yandex.ru</div>
+                            </div>
+                        </a>
+
+                        <a href="https://t.me/Efremov_Ilia" target="_blank" rel="noopener noreferrer"
+                            style="display:flex;align-items:center;gap:20px;padding:20px;background:var(--color-bg-card);border-radius:var(--radius-lg);text-decoration:none;color:inherit;">
+                            <div
+                                style="width:56px;height:56px;background:linear-gradient(135deg,#27a7e7,#1c7abf);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;color:white;flex-shrink:0;">
+                                ✈</div>
+                            <div>
+                                <div style="font-weight:600;font-size:15px;margin-bottom:2px;">Telegram</div>
+                                <div style="color:var(--color-primary);font-size:15px;">@Efremov_Ilia</div>
+                                <div style="color:var(--color-text-secondary);font-size:14px;">Илья Ефремов</div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div
+                        style="padding:28px;background:var(--color-bg-warm);border-radius:var(--radius-lg);border:1px solid var(--color-border);">
+                        <h4 style="font-family:var(--font-serif);margin-bottom:12px;">Часы ответа</h4>
+                        <p style="font-size:14px;color:var(--color-text-secondary);line-height:1.75;">
+                            Мы стараемся отвечать на все сообщения в течение 24 часов.
+                            Наставники доступны для ответов на вопросы ежедневно.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Contact form -->
+                <div>
+                    <h2 style="font-family:var(--font-serif);margin-bottom:32px;">Форма обратной связи</h2>
+                    <form onsubmit="submitContactForm(event)" style="display:flex;flex-direction:column;gap:16px;">
+                        <div class="form-group">
+                            <label class="form-label">Ваше имя</label>
+                            <input class="form-input" id="contact-name" type="text" placeholder="Имя Фамилия" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input class="form-input" id="contact-email" type="email" placeholder="ваш@email.ru"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Тема</label>
+                            <select class="form-select" id="contact-subject">
+                                <option>Вопрос о курсе</option>
+                                <option>Технические проблемы</option>
+                                <option>Сотрудничество</option>
+                                <option>Другое</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Сообщение</label>
+                            <textarea class="form-input" id="contact-message" style="min-height:140px;resize:vertical;"
+                                placeholder="Напишите ваше сообщение..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg">Отправить сообщение</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <div class="logo-icon"></div>
+                        <div class="logo-text">Жизни Смысл<span>Онлайн школа</span></div>
+                    </a>
+                    <p>Бесплатная онлайн-школа библейского образования</p>
+                    <div class="footer-socials">
+                        <a href="https://t.me/maindecision" target="_blank" class="footer-social">✈</a>
+                        <a href="mailto:lifesmeaning@yandex.ru" class="footer-social">✉</a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h5>Курсы</h5>
+                    <ul>
+                        <li><a href="course.html?id=panorama">Панорама Библии</a></li>
+                        <li><a href="course.html?id=uniqueness">Уникальность Библии</a></li>
+                        <li><a href="course.html?id=family">Институт семьи</a></li>
+                        <li><a href="course.html?id=silence">Молчание Бога</a></li>
+                        <li><a href="course.html?id=summary">Краткое содержание</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h5>О нас</h5>
+                    <ul>
+                        <li><a href="about.html">О проекте</a></li>
+                        <li><a href="partners.html">Партнёры</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h5>Контакты</h5>
+                    <ul>
+                        <li><a href="mailto:lifesmeaning@yandex.ru">lifesmeaning@yandex.ru</a></li>
+                        <li><a href="https://t.me/Efremov_Ilia" target="_blank">Telegram</a></li>
+                        <li><a href="tel:+79955977714">+7 995 597-77-14</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom"><span>© 2024 Жизни Смысл</span><span>lifesmeaning@yandex.ru</span></div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+        function submitContactForm(e) {
+            e.preventDefault();
+            const name = document.getElementById('contact-name').value;
+            const email = document.getElementById('contact-email').value;
+            const subject = document.getElementById('contact-subject').value;
+            const message = document.getElementById('contact-message').value;
+
+            // Store message
+            const messages = JSON.parse(localStorage.getItem('contact_messages') || '[]');
+            messages.push({ name, email, subject, message, timestamp: new Date().toISOString() });
+            localStorage.setItem('contact_messages', JSON.stringify(messages));
+
+            showToast('Отправлено! ✓', 'Ваше сообщение получено. Мы ответим в течение 24 часов.', 'success');
+            e.target.reset();
+        }
+    </script>
+</body>
+
+</html>

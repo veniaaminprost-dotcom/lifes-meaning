@@ -1,0 +1,15 @@
+.DS_Store
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+*.log
+.env
+.env.local
+.merge-backup/
+
+lifed_maining_platform/dist/
+lifed_maining_platform/dist.zip
+lifed_maining_platform/uploads/
+
+lifed_maining_platform/supabase/.temp/

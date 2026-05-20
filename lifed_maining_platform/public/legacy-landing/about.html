@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>О проекте — Жизни Смысл</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <div class="toast-container" id="toast-container"></div>
+    <div class="modal-overlay hidden" id="auth-modal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeAuthModal()">✕</button>
+            <div class="modal-title">Войти</div>
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="login" onclick="switchTab('login')">Войти</button>
+                <button class="tab-btn" data-tab="register" onclick="switchTab('register')">Регистрация</button>
+            </div>
+            <div class="tab-content" data-tab="login">
+                <form onsubmit="handleLogin(event)">
+                    <div class="form-group"><label class="form-label">Email</label><input class="form-input"
+                            id="login-email" type="email" required></div>
+                    <div class="form-group"><label class="form-label">Пароль</label><input class="form-input"
+                            id="login-password" type="password" required></div>
+                    <button type="submit" class="btn btn-primary" style="width:100%">Войти</button>
+                </form>
+            </div>
+            <div class="tab-content" data-tab="register" style="display:none">
+                <form onsubmit="handleRegister(event)">
+                    <div class="form-group"><label class="form-label">Имя</label><input class="form-input" id="reg-name"
+                            type="text" required></div>
+                    <div class="form-group"><label class="form-label">Email</label><input class="form-input"
+                            id="reg-email" type="email" required></div>
+                    <div class="form-group"><label class="form-label">Пароль</label><input class="form-input"
+                            id="reg-password" type="password" minlength="6" required></div>
+                    <button type="submit" class="btn btn-primary" style="width:100%">Зарегистрироваться</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <header class="site-header">
+        <div class="container">
+            <div class="header-inner">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon"></div>
+                    <div class="logo-text">Жизни Смысл<span>Онлайн школа</span></div>
+                </a>
+                <nav class="nav-menu">
+                    <a href="index.html">Главная</a><a href="index.html#courses">Курсы</a>
+                    <a href="partners.html">Проекты</a><a href="about.html" class="active">О проекте</a><a
+                        href="contacts.html">Контакты</a>
+                </nav>
+                <div class="header-actions" id="header-auth-area"></div>
+                <button class="hamburger" onclick="toggleMobileMenu()"><span></span><span></span><span></span></button>
+            </div>
+        </div>
+    </header>
+
+    <nav class="mobile-nav" id="mobile-nav">
+        <a href="index.html">Главная</a><a href="index.html#courses">Курсы</a>
+        <a href="partners.html">Партнёры</a><a href="about.html">О проекте</a>
+    </nav>
+
+    <!-- HERO -->
+    <section style="background:var(--color-bg-warm);padding:60px 0;">
+        <div class="container" style="text-align:center;">
+            <nav class="breadcrumbs" style="justify-content:center;margin-bottom:24px;">
+                <a href="index.html">Главная</a><span class="sep">›</span><span class="current">О проекте</span>
+            </nav>
+            <img src="Библия с солнышком.png" alt="Библия"
+                style="height:180px;margin:0 auto 24px;object-fit:contain;" onerror="this.style.display='none'">
+            <h1 style="font-family:var(--font-serif);font-size:clamp(2rem,5vw,3.5rem);margin-bottom:16px;">О проекте
+                «Жизни Смысл»</h1>
+            <p style="max-width:600px;margin:0 auto;color:var(--color-text-secondary);font-size:17px;line-height:1.75;">
+                Бесплатная онлайн-школа, созданная для того, чтобы каждый желающий мог познакомиться с Библией и
+                христианством
+            </p>
+        </div>
+    </section>
+
+    <!-- ABOUT CONTENT -->
+    <section class="section">
+        <div class="container">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;margin-bottom:60px;">
+                <div>
+                    <span class="section-label">Наша миссия</span>
+                    <h2 style="font-family:var(--font-serif);margin:12px 0 20px;">Зачем мы создали этот проект</h2>
+                    <p style="margin-bottom:16px;line-height:1.8;">
+                        Проект «Жизни Смысл» создан с единой целью — сделать библейское образование доступным для
+                        каждого человека,
+                        speaking the Russian language.
+                    </p>
+                    <p style="margin-bottom:16px;line-height:1.8;">
+                        Мы верим, что Библия — это живое Слово Бога, которое меняет жизни людей. И хотим,
+                        чтобы как можно больше людей имели возможность познакомиться с ней в доступном формате.
+                    </p>
+                    <p style="line-height:1.8;">
+                        Все курсы абсолютно бесплатны. Мы не берём денег за обучение,
+                        потому что верим, что Слово Бога должно быть доступно всем.
+                    </p>
+                </div>
+                <div
+                    style="background:var(--color-bg-card);border-radius:var(--radius-xl);padding:40px;text-align:center;">
+                    <div style="font-size:80px;margin-bottom:20px;">✝️</div>
+                    <blockquote
+                        style="font-family:var(--font-serif);font-size:22px;font-style:italic;color:var(--color-primary);line-height:1.4;">
+                        «Познайте истину, и истина сделает вас свободными»
+                    </blockquote>
+                    <p style="font-size:14px;color:var(--color-text-secondary);margin-top:12px;">Иоанна 8:32</p>
+                </div>
+            </div>
+
+            <!-- TEACHER -->
+            <div
+                style="background:var(--color-bg-warm);border-radius:var(--radius-xl);padding:48px;margin-bottom:60px;">
+                <div style="display:grid;grid-template-columns:200px 1fr;gap:40px;align-items:center;">
+                    <div style="text-align:center;">
+                        <div
+                            style="width:150px;height:150px;background:var(--color-bg-card);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:60px;margin:0 auto 16px;border:4px solid var(--color-border);">
+                            🧑‍🏫</div>
+                        <div style="font-family:var(--font-serif);font-size:20px;font-weight:600;">Евгений Сафонов</div>
+                        <div style="font-size:14px;color:var(--color-primary);margin-top:4px;">Наставник</div>
+                    </div>
+                    <div>
+                        <h3 style="font-family:var(--font-serif);margin-bottom:16px;">О наставнике</h3>
+                        <p style="margin-bottom:14px;line-height:1.8;">
+                            Евгений Сафонов — наставник и преподаватель библейских курсов. На протяжении многих лет
+                            он занимается изучением Священного Писания и делится знаниями с другими людьми.
+                        </p>
+                        <p style="margin-bottom:14px;line-height:1.8;">
+                            Евгений является автором всех курсов онлайн-школы «Жизни Смысл».
+                            Его цель — объяснить сложные библейские концепции простым и понятным языком.
+                        </p>
+                        <p style="line-height:1.8;">
+                            По окончании курса «Знакомство с Библией» каждый студент получает именной сертификат,
+                            подписанный Евгением Сафоновым.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VALUES -->
+            <div>
+                <h2 style="font-family:var(--font-serif);text-align:center;margin-bottom:40px;">Наши ценности</h2>
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;">
+                    <div
+                        style="text-align:center;padding:32px 24px;background:var(--color-bg-card);border-radius:var(--radius-lg);">
+                        <div style="font-size:40px;margin-bottom:16px;">🆓</div>
+                        <h4 style="font-family:var(--font-serif);font-size:20px;margin-bottom:10px;">Бесплатность</h4>
+                        <p style="font-size:14px;color:var(--color-text-secondary);">Все курсы абсолютно бесплатны.
+                            Слово Бога должно быть доступно каждому.</p>
+                    </div>
+                    <div
+                        style="text-align:center;padding:32px 24px;background:var(--color-bg-card);border-radius:var(--radius-lg);">
+                        <div style="font-size:40px;margin-bottom:16px;">💎</div>
+                        <h4 style="font-family:var(--font-serif);font-size:20px;margin-bottom:10px;">Качество</h4>
+                        <p style="font-size:14px;color:var(--color-text-secondary);">Мы тщательно готовим каждый урок,
+                            чтобы материал был понятен и глубок одновременно.</p>
+                    </div>
+                    <div
+                        style="text-align:center;padding:32px 24px;background:var(--color-bg-card);border-radius:var(--radius-lg);">
+                        <div style="font-size:40px;margin-bottom:16px;">🤝</div>
+                        <h4 style="font-family:var(--font-serif);font-size:20px;margin-bottom:10px;">Поддержка</h4>
+                        <p style="font-size:14px;color:var(--color-text-secondary);">К каждому студенту прикрепляется
+                            личный наставник для ответов на вопросы.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section
+        style="background:linear-gradient(135deg,var(--color-primary),var(--color-primary-dark));color:white;padding:60px 0;text-align:center;">
+        <div class="container">
+            <h2 style="color:white;font-family:var(--font-serif);margin-bottom:16px;">Присоединяйтесь к нам!</h2>
+            <p style="color:rgba(255,255,255,0.8);margin-bottom:28px;font-size:17px;">Начните своё путешествие по Библии
+                уже сегодня</p>
+            <button class="btn" style="background:white;color:var(--color-primary);padding:16px 40px;font-size:16px;"
+                onclick="openAuthModal('register')">Записаться бесплатно</button>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <div class="logo-icon"></div>
+                        <div class="logo-text">Жизни Смысл<span>Онлайн школа</span></div>
+                    </a>
+                    <p>Бесплатная онлайн-школа библейского образования</p>
+                    <div class="footer-socials">
+                        <a href="https://t.me/maindecision" target="_blank" class="footer-social">✈</a>
+                        <a href="mailto:lifesmeaning@yandex.ru" class="footer-social">✉</a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h5>Курсы</h5>
+                    <ul>
+                        <li><a href="course.html?id=panorama">Панорама Библии</a></li>
+                        <li><a href="course.html?id=uniqueness">Уникальность Библии</a></li>
+                        <li><a href="course.html?id=family">Институт семьи</a></li>
+                        <li><a href="course.html?id=silence">Молчание Бога</a></li>
+                        <li><a href="course.html?id=summary">Краткое содержание</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h5>Проекты</h5>
+                    <ul>
+                        <li><a href="partners.html">Партнёры</a></li>
+                        <li><a href="https://www.xn--b1agjao2ar9b4ag.xn--p1ai/" target="_blank">Газета</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h5>Контакты</h5>
+                    <ul>
+                        <li><a href="contacts.html">Написать нам</a></li>
+                        <li><a href="mailto:lifesmeaning@yandex.ru">Email</a></li>
+                        <li><a href="https://t.me/maindecision" target="_blank">Telegram</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom"><span>© 2024 Жизни Смысл</span><span>lifesmeaning@yandex.ru</span></div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

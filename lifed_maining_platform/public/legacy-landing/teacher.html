@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кабинет преподавателя — Жизни Смысл</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .teacher-layout {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            min-height: calc(100vh - 72px);
+        }
+
+        .teacher-sidebar {
+            background: var(--color-bg-light);
+            border-right: 1px solid var(--color-border-light);
+            padding: 24px 0;
+        }
+
+        .teacher-sidebar-label {
+            padding: 8px 20px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--color-text-light);
+        }
+
+        .teacher-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--color-text-secondary);
+            border-left: 3px solid transparent;
+            transition: var(--transition);
+        }
+
+        .teacher-nav-item:hover {
+            background: var(--color-bg-warm);
+        }
+
+        .teacher-nav-item.active {
+            color: var(--color-primary);
+            background: rgba(144, 107, 89, 0.06);
+            border-left-color: var(--color-primary);
+            font-weight: 500;
+        }
+
+        .teacher-main {
+            padding: 32px;
+            background: white;
+        }
+
+        .teacher-page {
+            display: none;
+        }
+
+        .teacher-page.active {
+            display: block;
+        }
+
+        /* Stat cards */
+        .stat-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: var(--color-bg-card);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            text-align: center;
+        }
+
+        .stat-num {
+            font-family: var(--font-serif);
+            font-size: 2.5rem;
+            color: var(--color-primary);
+            font-weight: 700;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--color-text-secondary);
+            margin-top: 4px;
+        }
+
+        /* Student list */
+        .student-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            border: 1px solid var(--color-border-light);
+            border-radius: var(--radius-md);
+            margin-bottom: 8px;
+            transition: var(--transition);
+        }
+
+        .student-row:hover {
+            border-color: var(--color-primary-light);
+        }
+
+        .student-avatar-sm {
+            width: 44px;
+            height: 44px;
+            background: var(--color-bg-warm);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .student-name {
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        .student-email {
+            font-size: 13px;
+            color: var(--color-text-secondary);
+        }
+
+        /* Assignment cards */
+        .asgn-card {
+            border: 1.5px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+
+        .asgn-card-head {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 20px;
+            background: var(--color-bg-card);
+        }
+
+        .asgn-card-body {
+            padding: 20px;
+        }
+
+        .asgn-text {
+            padding: 14px 16px;
+            background: var(--color-bg-light);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--color-text-secondary);
+            margin-bottom: 16px;
+            border-left: 3px solid var(--color-primary-light);
+        }
+
+        .comment-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1.5px solid var(--color-border);
+            border-radius: var(--radius-md);
+            font-family: var(--font-sans);
+            font-size: 14px;
+            min-height: 80px;
+            resize: vertical;
+            margin-bottom: 12px;
+        }
+
+        .comment-input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+        }
+
+        /* Chat */
+        .chat-student-list {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-bottom: 20px;
+        }
+
+        .chat-student-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: var(--transition);
+        }
+
+        .chat-student-row:hover,
+        .chat-student-row.active {
+            background: rgba(144, 107, 89, 0.08);
+            border-color: var(--color-primary-light);
+        }
+
+        .teacher-chat-area {
+            border: 1.5px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            height: 460px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .teacher-chat-head {
+            padding: 16px 20px;
+            background: var(--color-bg-card);
+            border-bottom: 1px solid var(--color-border-light);
+            font-weight: 600;
+        }
+
+        .teacher-chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .tchat-msg {
+            max-width: 80%;
+            padding: 10px 14px;
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .tchat-msg.sent {
+            background: var(--color-primary);
+            color: white;
+            align-self: flex-end;
+        }
+
+        .tchat-msg.received {
+            background: var(--color-bg-card);
+            align-self: flex-start;
+            border: 1px solid var(--color-border);
+        }
+
+        .tchat-msg-time {
+            font-size: 10px;
+            opacity: 0.6;
+            margin-top: 3px;
+        }
+
+        .teacher-chat-input {
+            display: flex;
+            gap: 8px;
+            padding: 12px 16px;
+            border-top: 1px solid var(--color-border-light);
+        }
+
+        .teacher-chat-input input {
+            flex: 1;
+            padding: 10px 14px;
+            border: 1.5px solid var(--color-border);
+            border-radius: var(--radius-md);
+            font-family: var(--font-sans);
+            font-size: 14px;
+        }
+
+        .teacher-chat-input input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+        }
+
+        @media (max-width: 900px) {
+            .teacher-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .teacher-sidebar {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 4px;
+                padding: 12px;
+                border-right: none;
+                border-bottom: 1px solid var(--color-border-light);
+            }
+
+            .teacher-nav-item {
+                border-left: none;
+                border-bottom: 3px solid transparent;
+            }
+
+            .teacher-nav-item.active {
+                border-left: none;
+                border-bottom-color: var(--color-primary);
+            }
+
+            .stat-cards {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- HEADER -->
+    <header class="site-header">
+        <div class="container">
+            <div class="header-inner">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon"></div>
+                    <div class="logo-text">Жизни Смысл<span>Кабинет преподавателя</span></div>
+                </a>
+                <div class="header-actions" id="header-auth-area"></div>
+            </div>
+        </div>
+    </header>
+
+    <div class="teacher-layout">
+        <!-- SIDEBAR -->
+        <aside class="teacher-sidebar">
+            <div class="teacher-sidebar-label">Навигация</div>
+            <div class="teacher-nav-item active" onclick="showPage('dashboard', this)">📊 Обзор</div>
+            <div class="teacher-nav-item" onclick="showPage('students', this)">👥 Студенты</div>
+            <div class="teacher-nav-item" onclick="showPage('assignments', this)">✏️ Задания
+                <span id="pending-count"
+                    style="background:var(--color-warning);color:white;font-size:11px;padding:1px 6px;border-radius:99px;margin-left:auto;"></span>
+            </div>
+            <div class="teacher-nav-item" onclick="showPage('chat', this)">💬 Чат</div>
+            <div class="teacher-nav-item" onclick="showPage('stats', this)">📊 Статистика</div>
+        </aside>
+
+        <!-- MAIN -->
+        <main class="teacher-main">
+
+            <!-- DASHBOARD -->
+            <div class="teacher-page active" id="page-dashboard">
+                <h2 style="font-family:var(--font-serif);margin-bottom:8px;">Добро пожаловать, Евгений! 👋</h2>
+                <p style="color:var(--color-text-secondary);margin-bottom:32px;">Кабинет преподавателя · Жизни Смысл</p>
+
+                <div class="stat-cards" id="stat-cards">
+                    <div class="stat-card">
+                        <div class="stat-num" id="stat-students">3</div>
+                        <div class="stat-label">Студентов</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-num" id="stat-pending">0</div>
+                        <div class="stat-label">Заданий на проверке</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-num" id="stat-completed">0</div>
+                        <div class="stat-label">Проверено</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-num" id="stat-msgs">0</div>
+                        <div class="stat-label">Новых сообщений</div>
+                    </div>
+                </div>
+
+                <h3 style="font-family:var(--font-serif);margin-bottom:16px;">Недавние задания</h3>
+                <div id="recent-assignments"></div>
+
+                <h3 style="font-family:var(--font-serif);margin-top:32px;margin-bottom:16px;">Курсы</h3>
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;" id="course-stats"></div>
+            </div>
+
+            <!-- STUDENTS -->
+            <div class="teacher-page" id="page-students">
+                <h2 style="font-family:var(--font-serif);margin-bottom:24px;">Студенты</h2>
+                <div id="students-list"></div>
+            </div>
+
+            <!-- ASSIGNMENTS -->
+            <div class="teacher-page" id="page-assignments">
+                <h2 style="font-family:var(--font-serif);margin-bottom:8px;">Задания на проверку</h2>
+                <p style="color:var(--color-text-secondary);margin-bottom:24px;">Проверьте работы студентов и оставьте
+                    обратную связь</p>
+                <div id="assignments-list"></div>
+            </div>
+
+            <!-- CHAT -->
+            <div class="teacher-page" id="page-chat">
+                <h2 style="font-family:var(--font-serif);margin-bottom:24px;">Чат со студентами</h2>
+                <div style="display:grid;grid-template-columns:220px 1fr;gap:24px;">
+                    <div>
+                        <h5
+                            style="font-size:13px;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:12px;">
+                            Студенты</h5>
+                        <div class="chat-student-list" id="teacher-student-list"></div>
+                    </div>
+                    <div>
+                        <div class="teacher-chat-area">
+                            <div class="teacher-chat-head" id="tchat-head">Выберите студента</div>
+                            <div class="teacher-chat-messages" id="tchat-messages"
+                                style="justify-content:center;align-items:center;color:var(--color-text-light);font-size:14px;">
+                                Выберите студента для начала диалога
+                            </div>
+                            <div class="teacher-chat-input" id="tchat-input-area" style="display:none;">
+                                <input type="text" id="tchat-input" placeholder="Сообщение..."
+                                    onkeydown="if(event.key==='Enter')teacherSendMsg()">
+                                <button class="chat-send-btn" onclick="teacherSendMsg()">↑</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STATS -->
+            <div class="teacher-page" id="page-stats">
+                <h2 style="font-family:var(--font-serif);margin-bottom:24px;">Статистика по курсам</h2>
+                <div id="full-stats"></div>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        let activeChatStudentId = null;
+
+        function checkTeacherAccess() {
+            const user = getCurrentUser();
+            if (!user || user.role !== 'teacher') {
+                window.location.href = 'index.html';
+            }
+            return user;
+        }
+
+        function showPage(page, el) {
+            document.querySelectorAll('.teacher-page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.teacher-nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById(`page-${page}`).classList.add('active');
+            if (el) el.classList.add('active');
+            refreshPage(page);
+        }
+
+        function refreshPage(page) {
+            if (page === 'dashboard') renderDashboard();
+            if (page === 'students') renderStudents();
+            if (page === 'assignments') renderAssignments();
+            if (page === 'chat') renderChat();
+            if (page === 'stats') renderStats();
+        }
+
+        function renderDashboard() {
+            const assignments = Object.values(window.appState.assignments);
+            const pending = assignments.filter(a => a.status === 'pending');
+            const done = assignments.filter(a => a.status !== 'pending');
+            const totalMsgs = Object.values(window.appState.chats).reduce((acc, c) => acc + c.length, 0);
+
+            document.getElementById('stat-students').textContent = window.appState.students.length;
+            document.getElementById('stat-pending').textContent = pending.length;
+            document.getElementById('stat-completed').textContent = done.length;
+            document.getElementById('stat-msgs').textContent = totalMsgs;
+
+            document.getElementById('pending-count').textContent = pending.length > 0 ? pending.length : '';
+
+            const recent = assignments.slice(-3).reverse();
+            document.getElementById('recent-assignments').innerHTML = recent.length
+                ? recent.map(a => renderAsgnMiniCard(a)).join('')
+                : '<p style="color:var(--color-text-light);font-size:14px;">Заданий пока нет</p>';
+
+            document.getElementById('course-stats').innerHTML = window.COURSES.map(c => {
+                const allProgress = window.appState.students.map(s => getCourseProgress(s.id, c.id));
+                const avgPct = allProgress.reduce((acc, p) => {
+                    const flat = c.curriculum.reduce((a, s) => a + s.lessons.length, 0);
+                    return acc + (flat > 0 ? (p.completedLessons.length / flat) * 100 : 0);
+                }, 0) / Math.max(window.appState.students.length, 1);
+                return `
+        <div style="background:var(--color-bg-card);border-radius:var(--radius-md);padding:16px;">
+          <div style="font-size:1.3rem;margin-bottom:8px;">${c.emoji}</div>
+          <div style="font-weight:600;font-size:13px;margin-bottom:8px;">${c.title}</div>
+          <div class="progress-bar"><div class="progress-fill" style="width:${Math.round(avgPct)}%"></div></div>
+          <div style="font-size:12px;color:var(--color-text-secondary);margin-top:4px;">${Math.round(avgPct)}% средний прогресс</div>
+        </div>
+      `;
+            }).join('');
+        }
+
+        function renderAsgnMiniCard(a) {
+            const student = [...window.appState.students, ...window.appState.teachers].find(u => u.id === a.studentId);
+            const course = window.COURSES.find(c => c.id === a.courseId);
+            const statusColors = { pending: 'warning', accepted: 'success', revision: 'error' };
+            const statusText = { pending: 'На проверке', accepted: 'Принято', revision: 'Доработка' };
+            return `
+      <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;border:1px solid var(--color-border-light);border-radius:var(--radius-md);margin-bottom:8px;">
+        <div style="font-size:20px;">👤</div>
+        <div style="flex:1;">
+          <div style="font-weight:500;font-size:14px;">${student?.name || 'Студент'}</div>
+          <div style="font-size:12px;color:var(--color-text-secondary);">${course?.title}</div>
+        </div>
+        <span class="badge badge-${statusColors[a.status]}">${statusText[a.status]}</span>
+      </div>
+    `;
+        }
+
+        function renderStudents() {
+            const list = document.getElementById('students-list');
+            list.innerHTML = window.appState.students.map(s => {
+                const totalLessons = window.COURSES.reduce((acc, c) => {
+                    const prog = getCourseProgress(s.id, c.id);
+                    return acc + prog.completedLessons.length;
+                }, 0);
+                const asgnCount = getStudentAssignments(s.id).length;
+                return `
+        <div class="student-row">
+          <div class="student-avatar-sm">👤</div>
+          <div style="flex:1;">
+            <div class="student-name">${s.name}</div>
+            <div class="student-email">${s.email}</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:13px;font-weight:500;color:var(--color-primary);">${totalLessons} уроков пройдено</div>
+            <div style="font-size:12px;color:var(--color-text-secondary);">${asgnCount} заданий отправлено</div>
+          </div>
+          <button class="btn btn-ghost btn-sm" onclick="selectChatStudent('${s.id}')" style="margin-left:8px;">💬</button>
+        </div>
+      `;
+            }).join('');
+        }
+
+        function renderAssignments() {
+            const list = document.getElementById('assignments-list');
+            const assignments = Object.values(window.appState.assignments).sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+            if (assignments.length === 0) {
+                list.innerHTML = `
+        <div style="text-align:center;padding:60px 20px;color:var(--color-text-light);">
+          <div style="font-size:48px;margin-bottom:16px;">✏️</div>
+          <div style="font-size:16px;">Заданий пока нет</div>
+          <p style="font-size:14px;margin-top:8px;">Студенты ещё не отправили работы на проверку</p>
+        </div>
+      `;
+                return;
+            }
+
+            list.innerHTML = assignments.map(a => {
+                const student = window.appState.students.find(s => s.id === a.studentId);
+                const course = window.COURSES.find(c => c.id === a.courseId);
+                const date = new Date(a.timestamp).toLocaleString('ru');
+                const statusMap = { pending: ['warning', '⏳', 'На проверке'], accepted: ['success', '✅', 'Принято'], revision: ['error', '📝', 'Доработка'] };
+                const [sc, si, st] = statusMap[a.status];
+
+                return `
+        <div class="asgn-card" id="asgn-${a.id}">
+          <div class="asgn-card-head">
+            <div style="font-size:24px;">👤</div>
+            <div style="flex:1;">
+              <div style="font-weight:600;">${student?.name || 'Студент'}</div>
+              <div style="font-size:13px;color:var(--color-text-secondary);">${course?.title}</div>
+            </div>
+            <span class="badge badge-${sc}">${si} ${st}</span>
+            <span style="font-size:12px;color:var(--color-text-light);">${date}</span>
+          </div>
+          <div class="asgn-card-body">
+            <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:10px;"><strong>Ответ студента:</strong></p>
+            <div class="asgn-text">${a.text}</div>
+            ${a.teacherComment ? `
+              <div style="padding:12px;background:rgba(90,138,106,0.05);border-radius:var(--radius-md);border:1px solid rgba(90,138,106,0.15);margin-bottom:12px;font-size:14px;">
+                <strong>Ваш комментарий:</strong><br>${a.teacherComment}
+              </div>
+            ` : ''}
+            ${a.status === 'pending' ? `
+              <textarea class="comment-input" id="comment-${a.id}" placeholder="Напишите комментарий для студента..."></textarea>
+              <div style="display:flex;gap:10px;">
+                <button class="btn btn-primary btn-sm" onclick="reviewAsgn('${a.id}', 'accepted')">✅ Принять</button>
+                <button class="btn btn-outline btn-sm" onclick="reviewAsgn('${a.id}', 'revision')" style="border-color:var(--color-error);color:var(--color-error);">📝 На доработку</button>
+              </div>
+            ` : ''}
+          </div>
+        </div>
+      `;
+            }).join('');
+        }
+
+        function reviewAsgn(id, status) {
+            const comment = document.getElementById(`comment-${id}`)?.value || '';
+            reviewAssignment(id, status, comment);
+            const statusText = status === 'accepted' ? 'принято' : 'отправлено на доработку';
+            showToast('Готово!', `Задание ${statusText}`, 'success');
+            renderAssignments();
+            renderDashboard();
+        }
+
+        function renderChat() {
+            const list = document.getElementById('teacher-student-list');
+            list.innerHTML = window.appState.students.map(s => {
+                const msgs = getChatMessages(s.id, window.appState.teachers[0].id);
+                return `
+        <div class="chat-student-row ${activeChatStudentId === s.id ? 'active' : ''}" onclick="selectChatStudent('${s.id}')">
+          <div style="font-size:20px;">👤</div>
+          <div>
+            <div style="font-size:13px;font-weight:500;">${s.name}</div>
+            <div style="font-size:11px;color:var(--color-text-light);">${msgs.length} сообщ.</div>
+          </div>
+        </div>
+      `;
+            }).join('');
+
+            if (activeChatStudentId) loadTeacherChat(activeChatStudentId);
+        }
+
+        function selectChatStudent(studentId) {
+            activeChatStudentId = studentId;
+            showPage('chat', document.querySelector('[onclick*="chat"]'));
+            loadTeacherChat(studentId);
+        }
+
+        function loadTeacherChat(studentId) {
+            const student = window.appState.students.find(s => s.id === studentId);
+            const teacher = window.appState.teachers[0];
+            const msgs = getChatMessages(studentId, teacher.id);
+
+            document.getElementById('tchat-head').textContent = `Чат: ${student?.name}`;
+            document.getElementById('tchat-input-area').style.display = 'flex';
+
+            const container = document.getElementById('tchat-messages');
+            if (!msgs.length) {
+                container.innerHTML = `<div style="text-align:center;color:var(--color-text-light);font-size:14px;">Нет сообщений</div>`;
+                container.style.justifyContent = 'center';
+                container.style.alignItems = 'center';
+            } else {
+                container.style.justifyContent = '';
+                container.style.alignItems = '';
+                container.innerHTML = msgs.map(m => {
+                    const isMine = m.senderId === teacher.id;
+                    const time = new Date(m.timestamp).toLocaleTimeString('ru', { hour: '2-digit', minute: '2-digit' });
+                    return `<div class="tchat-msg ${isMine ? 'sent' : 'received'}">${m.text}<div class="tchat-msg-time">${time}</div></div>`;
+                }).join('');
+            }
+            container.scrollTop = container.scrollHeight;
+
+            // update list UI
+            document.querySelectorAll('.chat-student-row').forEach(r => r.classList.remove('active'));
+            document.querySelectorAll('.chat-student-row').forEach(r => {
+                if (r.getAttribute('onclick')?.includes(studentId)) r.classList.add('active');
+            });
+        }
+
+        function teacherSendMsg() {
+            if (!activeChatStudentId) return;
+            const teacher = window.appState.teachers[0];
+            const input = document.getElementById('tchat-input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            sendMessage(teacher.id, activeChatStudentId, text);
+            input.value = '';
+            loadTeacherChat(activeChatStudentId);
+        }
+
+        function renderStats() {
+            const el = document.getElementById('full-stats');
+            el.innerHTML = window.COURSES.map(c => {
+                const flatCount = c.curriculum.reduce((a, s) => a + s.lessons.length, 0);
+                const studentRows = window.appState.students.map(s => {
+                    const prog = getCourseProgress(s.id, c.id);
+                    const done = prog.completedLessons.length;
+                    const pct = flatCount > 0 ? Math.round((done / flatCount) * 100) : 0;
+                    return `
+          <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--color-border-light);">
+            <span style="font-size:16px;">👤</span>
+            <span style="flex:1;font-size:14px;">${s.name}</span>
+            <div class="progress-bar" style="width:120px;"><div class="progress-fill" style="width:${pct}%"></div></div>
+            <span style="font-size:13px;color:var(--color-primary);font-weight:500;min-width:40px;text-align:right;">${pct}%</span>
+            <span style="font-size:12px;color:var(--color-text-secondary);">${done}/${flatCount}</span>
+          </div>
+        `;
+                }).join('');
+
+                return `
+        <div style="background:var(--color-bg-card);border-radius:var(--radius-lg);padding:24px;margin-bottom:20px;">
+          <h3 style="font-family:var(--font-serif);margin-bottom:16px;">${c.emoji} ${c.title}</h3>
+          ${studentRows}
+        </div>
+      `;
+            }).join('');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            checkTeacherAccess();
+            renderDashboard();
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Курс — Жизни Смысл</title>
+    <meta name="description" content="Описание курса онлайн-школы Жизни Смысл">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .course-hero {
+            background: var(--color-bg-warm);
+            padding: 60px 0;
+        }
+
+        .course-hero-inner {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .course-cover-lg {
+            aspect-ratio: 3/2;
+            border-radius: var(--radius-xl);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 100px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .course-cover-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+
+        .course-cover-title {
+            font-family: var(--font-serif);
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: rgba(80, 50, 30, 0.85);
+            line-height: 1.1;
+        }
+
+        .course-enroll-card {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: 32px;
+            border: 1px solid var(--color-border);
+            box-shadow: var(--shadow-md);
+            position: sticky;
+            top: 90px;
+        }
+
+        .course-price {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            color: var(--color-primary);
+            margin-bottom: 4px;
+        }
+
+        .course-info-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 20px 0;
+            padding: 20px 0;
+            border-top: 1px solid var(--color-border-light);
+            border-bottom: 1px solid var(--color-border-light);
+        }
+
+        .course-info-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+        }
+
+        .course-info-icon {
+            font-size: 20px;
+            width: 28px;
+            text-align: center;
+        }
+
+        .course-info-label {
+            color: var(--color-text-secondary);
+        }
+
+        .course-info-val {
+            font-weight: 600;
+            margin-left: auto;
+            color: var(--color-text);
+        }
+
+        .what-learn-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .what-learn-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 12px;
+            background: var(--color-bg-card);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            color: var(--color-text-secondary);
+        }
+
+        .what-learn-item::before {
+            content: '✓';
+            color: var(--color-success);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .curriculum-stage {
+            margin-bottom: 8px;
+        }
+
+        .stage-header {
+            padding: 12px 16px;
+            background: var(--color-bg-warm);
+            border-radius: var(--radius-md);
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 4px;
+        }
+
+        .lesson-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 16px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--color-border-light);
+            margin-bottom: 6px;
+            transition: var(--transition);
+        }
+
+        .lesson-row:hover {
+            border-color: var(--color-primary-light);
+            background: var(--color-bg-light);
+        }
+
+        .lesson-num {
+            width: 32px;
+            height: 32px;
+            background: var(--color-bg-warm);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-text-secondary);
+            flex-shrink: 0;
+        }
+
+        .lesson-title {
+            flex: 1;
+            font-size: 15px;
+            color: var(--color-text);
+        }
+
+        .lesson-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .lesson-badge {
+            font-size: 11px;
+            padding: 2px 8px;
+            background: rgba(144, 107, 89, 0.1);
+            color: var(--color-primary);
+            border-radius: 99px;
+        }
+
+        .lesson-duration {
+            font-size: 12px;
+            color: var(--color-text-light);
+        }
+
+        .teacher-card {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 28px;
+            background: var(--color-bg-card);
+            border-radius: var(--radius-lg);
+        }
+
+        .teacher-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--color-bg-warm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 900px) {
+            .course-hero-inner {
+                grid-template-columns: 1fr;
+            }
+
+            .course-enroll-card {
+                position: static;
+            }
+
+            .what-learn-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- AUTH MODAL -->
+    <div class="modal-overlay hidden" id="auth-modal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeAuthModal()">✕</button>
+            <div class="modal-title">Войти в аккаунт</div>
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="login" onclick="switchTab('login')">Войти</button>
+                <button class="tab-btn" data-tab="register" onclick="switchTab('register')">Регистрация</button>
+            </div>
+            <div class="tab-content" data-tab="login">
+                <form onsubmit="handleLogin(event)">
+                    <div class="form-group"><label class="form-label">Email</label><input class="form-input"
+                            id="login-email" type="email" required></div>
+                    <div class="form-group"><label class="form-label">Пароль</label><input class="form-input"
+                            id="login-password" type="password" required></div>
+                    <button type="submit" class="btn btn-primary" style="width:100%">Войти</button>
+                </form>
+            </div>
+            <div class="tab-content" data-tab="register" style="display:none">
+                <form onsubmit="handleRegister(event)">
+                    <div class="form-group"><label class="form-label">Имя</label><input class="form-input" id="reg-name"
+                            type="text" required></div>
+                    <div class="form-group"><label class="form-label">Email</label><input class="form-input"
+                            id="reg-email" type="email" required></div>
+                    <div class="form-group"><label class="form-label">Пароль</label><input class="form-input"
+                            id="reg-password" type="password" minlength="6" required></div>
+                    <button type="submit" class="btn btn-primary" style="width:100%">Зарегистрироваться</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- HEADER -->
+    <header class="site-header">
+        <div class="container">
+            <div class="header-inner">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon"></div>
+                    <div class="logo-text">Жизни Смысл<span>Онлайн школа</span></div>
+                </a>
+                <nav class="nav-menu">
+                    <a href="index.html">Главная</a>
+                    <a href="index.html#courses" class="active">Курсы</a>
+                    <a href="partners.html">Проекты</a>
+                    <a href="about.html">О проекте</a>
+                    <a href="contacts.html">Контакты</a>
+                </nav>
+                <div class="header-actions" id="header-auth-area"></div>
+                <button class="hamburger" onclick="toggleMobileMenu()"><span></span><span></span><span></span></button>
+            </div>
+        </div>
+    </header>
+
+    <nav class="mobile-nav" id="mobile-nav">
+        <a href="index.html">Главная</a>
+        <a href="index.html#courses">Курсы</a>
+        <a href="partners.html">Партнёры</a>
+        <a href="about.html">О проекте</a>
+    </nav>
+
+    <!-- BREADCRUMBS -->
+    <div class="container">
+        <nav class="breadcrumbs" id="breadcrumbs">
+            <a href="index.html">Главная</a>
+            <span class="sep">›</span>
+            <a href="index.html#courses">Курсы</a>
+            <span class="sep">›</span>
+            <span class="current" id="bc-title">...</span>
+        </nav>
+    </div>
+
+    <!-- COURSE HERO -->
+    <section class="course-hero" id="course-hero">
+        <div class="container">
+            <div class="course-hero-inner">
+                <div>
+                    <div id="course-cover-container"></div>
+                    <div id="course-badges" style="display:flex;gap:8px;margin-top:20px;flex-wrap:wrap;"></div>
+                    <h1 id="course-title"
+                        style="margin-top:16px;margin-bottom:12px;font-family:var(--font-serif);font-size:clamp(2rem,5vw,3rem);">
+                    </h1>
+                    <p id="course-desc" style="font-size:18px;line-height:1.75;color:var(--color-text-secondary);"></p>
+                </div>
+
+                <div class="course-enroll-card">
+                    <div class="course-price">Бесплатно</div>
+                    <p style="font-size:14px;color:var(--color-text-secondary);margin-bottom:0;">Полный доступ к курсу
+                    </p>
+
+                    <div class="course-info-list" id="course-info"></div>
+
+                    <button class="btn btn-primary" style="width:100%;margin-bottom:12px;" onclick="startCourse()"
+                        id="start-btn">
+                        Пройти курс →
+                    </button>
+                    <button class="btn btn-outline" style="width:100%;" onclick="openAuthModal('register')">
+                        Записаться
+                    </button>
+
+                    <p style="font-size:12px;text-align:center;color:var(--color-text-light);margin-top:16px;">
+                        ✓ Бесплатно &nbsp;·&nbsp; ✓ Наставник &nbsp;·&nbsp; ✓ Сертификат
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- COURSE CONTENT -->
+    <section class="section">
+        <div class="container">
+            <div style="display:grid;grid-template-columns:1fr 380px;gap:60px;align-items:start;"
+                class="course-content-grid">
+                <div>
+                    <!-- What you'll learn -->
+                    <div style="margin-bottom:48px;">
+                        <h2 style="font-family:var(--font-serif);margin-bottom:24px;">Что вы узнаете</h2>
+                        <div class="what-learn-grid" id="what-learn-grid"></div>
+                    </div>
+
+                    <!-- For whom -->
+                    <div
+                        style="margin-bottom:48px;padding:28px;background:var(--color-bg-card);border-radius:var(--radius-lg);">
+                        <h3 style="font-family:var(--font-serif);margin-bottom:12px;">👥 Для кого этот курс</h3>
+                        <p id="for-whom" style="font-size:15px;"></p>
+                    </div>
+
+                    <!-- Curriculum -->
+                    <div style="margin-bottom:48px;">
+                        <h2 style="font-family:var(--font-serif);margin-bottom:8px;">Программа курса</h2>
+                        <p style="font-size:14px;color:var(--color-text-secondary);margin-bottom:24px;"
+                            id="curriculum-summary"></p>
+                        <div id="curriculum-list"></div>
+                    </div>
+
+                    <!-- Teacher -->
+                    <div style="margin-bottom:48px;">
+                        <h2 style="font-family:var(--font-serif);margin-bottom:24px;">Преподаватель</h2>
+                        <div class="teacher-card">
+                            <div class="teacher-avatar">🧑‍🏫</div>
+                            <div>
+                                <h3 style="font-family:var(--font-serif);font-size:22px;margin-bottom:4px;">Евгений
+                                    Сафонов</h3>
+                                <p style="font-size:14px;color:var(--color-primary);margin-bottom:8px;">Наставник</p>
+                                <p style="font-size:14px;color:var(--color-text-secondary);">Пастор и преподаватель
+                                    библейских курсов. Автор всех курсов онлайн-школы «Жизни Смысл».</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reviews -->
+                    <div>
+                        <h2 style="font-family:var(--font-serif);margin-bottom:24px;">Отзывы студентов</h2>
+                        <div class="reviews-slider">
+                            <div class="review-card">
+                                <div class="review-stars">★★★★★</div>
+                                <p class="review-text">«Курс помог мне понять сложные библейские темы в простой и
+                                    доступной форме. Очень рекомендую всем, кто интересуется христианством.»</p>
+                                <div class="review-author">
+                                    <div class="review-avatar">👤</div>
+                                    <div>
+                                        <div class="review-name">Вячеслав</div>
+                                        <div class="review-meta">Студент курса</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="review-card">
+                                <div class="review-stars">★★★★★</div>
+                                <p class="review-text">«Отличный материал! Наставник всегда был на связи и отвечал на
+                                    все мои вопросы. Курс изменил моё восприятие Библии.»</p>
+                                <div class="review-author">
+                                    <div class="review-avatar">👤</div>
+                                    <div>
+                                        <div class="review-name">Наталья</div>
+                                        <div class="review-meta">Новгород</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="review-card">
+                                <div class="review-stars">★★★★★</div>
+                                <p class="review-text">«Думал, что Библия — просто мифы. Курс показал мне, что это
+                                    реальная история с реальными людьми и глубокими смыслами.»</p>
+                                <div class="review-author">
+                                    <div class="review-avatar">👤</div>
+                                    <div>
+                                        <div class="review-name">Владислав, 41</div>
+                                        <div class="review-meta">Москва</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right sidebar (sticky on desktop) -->
+                <div>
+                    <div
+                        style="background:var(--color-bg-card);border-radius:var(--radius-lg);padding:28px;position:sticky;top:90px;">
+                        <h4 style="font-family:var(--font-serif);margin-bottom:16px;">Включено в курс</h4>
+                        <ul style="display:flex;flex-direction:column;gap:12px;list-style:none;">
+                            <li style="display:flex;gap:10px;font-size:14px;"><span>🎬</span> Видеоуроки</li>
+                            <li style="display:flex;gap:10px;font-size:14px;"><span>📝</span> Задания и тесты</li>
+                            <li style="display:flex;gap:10px;font-size:14px;"><span>🧑‍🏫</span> Личный наставник</li>
+                            <li style="display:flex;gap:10px;font-size:14px;"><span>💬</span> Чат с преподавателем</li>
+                            <li style="display:flex;gap:10px;font-size:14px;"><span>🏆</span> Сертификат</li>
+                            <li style="display:flex;gap:10px;font-size:14px;"><span>♾️</span> Пожизненный доступ</li>
+                        </ul>
+                        <button class="btn btn-primary" style="width:100%;margin-top:24px;" onclick="startCourse()">
+                            Начать бесплатно
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <div class="logo-icon"></div>
+                        <div class="logo-text">Жизни Смысл<span>Онлайн школа</span></div>
+                    </a>
+                    <p>Бесплатная онлайн-школа библейского образования</p>
+                    <div class="footer-socials">
+                        <a href="https://t.me/maindecision" target="_blank" class="footer-social">✈</a>
+                        <a href="mailto:lifesmeaning@yandex.ru" class="footer-social">✉</a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h5>Курсы</h5>
+                    <ul>
+                        <li><a href="course.html?id=panorama">Панорама Библии</a></li>
+                        <li><a href="course.html?id=uniqueness">Уникальность Библии</a></li>
+                        <li><a href="course.html?id=family">Институт семьи</a></li>
+                        <li><a href="course.html?id=silence">Молчание Бога</a></li>
+                        <li><a href="course.html?id=summary">Краткое содержание</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h5>Проекты</h5>
+                    <ul>
+                        <li><a href="partners.html">Партнёрские проекты</a></li>
+                        <li><a href="https://www.xn--b1agjao2ar9b4ag.xn--p1ai/" target="_blank">Газета «Веришь ли
+                                ты»</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h5>Школа</h5>
+                    <ul>
+                        <li><a href="about.html">О проекте</a></li>
+                        <li><a href="contacts.html">Контакты</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2024 Жизни Смысл</span>
+                <span>lifesmeaning@yandex.ru</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+        // ---- Load course data from URL param ----
+        function loadCoursePage() {
+            const params = new URLSearchParams(window.location.search);
+            const courseId = params.get('id') || 'panorama';
+            const course = window.COURSES.find(c => c.id === courseId);
+            if (!course) { window.location.href = 'index.html'; return; }
+
+            // Page title
+            document.title = `${course.title} — Жизни Смысл`;
+
+            // Breadcrumb
+            document.getElementById('bc-title').textContent = course.title;
+
+            // Course badges
+            const badges = document.getElementById('course-badges');
+            badges.innerHTML = `
+      <span class="badge badge-primary">📖 ${course.lessons} урок${course.lessons === 1 ? '' : course.lessons < 5 ? 'а' : 'ов'}</span>
+      <span class="badge badge-primary">⏱ ${course.duration}</span>
+      <span class="badge badge-success">✓ Бесплатно</span>
+    `;
+
+            // Course cover
+            const coverColors = {
+                panorama: 'linear-gradient(135deg, #E8D5C0, #C8A882)',
+                uniqueness: 'linear-gradient(135deg, #C8D8E8, #A0B8CC)',
+                family: 'linear-gradient(135deg, #C8D8B8, #A0C090)',
+                silence: 'linear-gradient(135deg, #D4C8D8, #B0A0B8)',
+                summary: 'linear-gradient(135deg, #D8CDB8, #C0A888)',
+            };
+
+            const coverContainer = document.getElementById('course-cover-container');
+            coverContainer.innerHTML = `
+      <div style="background:${coverColors[course.id] || 'var(--color-bg-warm)'};border-radius:var(--radius-xl);display:flex;align-items:center;justify-content:center;height:280px;position:relative;overflow:hidden;box-shadow:var(--shadow-lg);">
+        <div style="text-align:center;">
+          <div style="font-size:80px;opacity:0.7;">${course.emoji}</div>
+          <div style="font-family:var(--font-serif);font-size:2rem;font-weight:700;color:rgba(80,50,30,0.8);margin-top:12px;">${course.title}</div>
+        </div>
+      </div>
+    `;
+
+            // Title & desc
+            document.getElementById('course-title').textContent = course.title;
+            document.getElementById('course-desc').textContent = course.fullDescription;
+
+            // Info list
+            const totalLessons = course.curriculum.reduce((acc, stage) => acc + stage.lessons.length, 0);
+            document.getElementById('course-info').innerHTML = `
+      <div class="course-info-item"><span class="course-info-icon">📖</span><span class="course-info-label">Уроков</span><span class="course-info-val">${totalLessons}</span></div>
+      <div class="course-info-item"><span class="course-info-icon">📚</span><span class="course-info-label">Модулей</span><span class="course-info-val">${course.curriculum.length}</span></div>
+      <div class="course-info-item"><span class="course-info-icon">⏱</span><span class="course-info-label">Длительность</span><span class="course-info-val">${course.duration}</span></div>
+      <div class="course-info-item"><span class="course-info-icon">🏅</span><span class="course-info-label">Уровень</span><span class="course-info-val">Для всех</span></div>
+      <div class="course-info-item"><span class="course-info-icon">🗣️</span><span class="course-info-label">Язык</span><span class="course-info-val">Русский</span></div>
+    `;
+
+            // What you learn
+            const whatLearnGrid = document.getElementById('what-learn-grid');
+            whatLearnGrid.innerHTML = course.whatYouLearn.map(item => `
+      <div class="what-learn-item">${item}</div>
+    `).join('');
+
+            // For whom
+            document.getElementById('for-whom').textContent = course.forWhom;
+
+            // Curriculum
+            document.getElementById('curriculum-summary').textContent =
+                `${course.curriculum.length} модул${course.curriculum.length === 1 ? 'ь' : 'я'} · ${totalLessons} урок${totalLessons < 5 ? 'а' : 'ов'}`;
+
+            const curriculumList = document.getElementById('curriculum-list');
+            let lessonCount = 0;
+            curriculumList.innerHTML = course.curriculum.map((stage, si) => `
+      <div class="curriculum-stage">
+        <div class="stage-header">📁 ${stage.stage}</div>
+        ${stage.lessons.map((lesson, li) => {
+                lessonCount++;
+                const globalIdx = course.curriculum.slice(0, si).reduce((a, s) => a + s.lessons.length, 0) + li;
+                const completed = window.appState.currentUser
+                    ? isLessonComplete(window.appState.currentUser.id, courseId, globalIdx)
+                    : false;
+                return `
+          <div class="lesson-row" style="${completed ? 'background:rgba(90,138,106,0.05);border-color:rgba(90,138,106,0.2);' : ''}">
+            <div class="lesson-num" style="${completed ? 'background:var(--color-success);color:white;' : ''}">${completed ? '✓' : lessonCount}</div>
+            <span class="lesson-title" style="${completed ? 'text-decoration:line-through;opacity:0.7;' : ''}">${lesson.title}</span>
+            <div class="lesson-meta">
+              ${lesson.hasTest ? '<span class="lesson-badge">Тест</span>' : ''}
+              ${lesson.hasAssignment ? '<span class="lesson-badge">Задание</span>' : ''}
+              ${lesson.duration ? `<span class="lesson-duration">${lesson.duration}</span>` : ''}
+            </div>
+          </div>`;
+            }).join('')}
+      </div>
+    `).join('');
+        }
+
+        function startCourse() {
+            const user = getCurrentUser();
+            const params = new URLSearchParams(window.location.search);
+            const courseId = params.get('id') || 'panorama';
+            if (user) {
+                window.location.href = `learn.html?course=${courseId}`;
+            } else {
+                openAuthModal('register');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadCoursePage();
+        });
+    </script>
+</body>
+
+</html>

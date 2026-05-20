@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Партнёрские проекты — Жизни Смысл</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .partners-hero {
+            background: var(--color-bg-warm);
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .channel-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .channel-card {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: 28px;
+            border: 1px solid var(--color-border);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .channel-card:hover {
+            border-color: var(--color-primary-light);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-4px);
+        }
+
+        .channel-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 36px;
+        }
+
+        .channel-name {
+            font-family: var(--font-serif);
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .channel-desc {
+            font-size: 14px;
+            color: var(--color-text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.65;
+        }
+
+        .channel-meta {
+            font-size: 12px;
+            color: var(--color-text-light);
+            margin-bottom: 16px;
+        }
+
+        .library-placeholder {
+            background: var(--color-bg-card);
+            border: 2px dashed var(--color-border);
+            border-radius: var(--radius-xl);
+            padding: 60px;
+            text-align: center;
+        }
+
+        .library-book-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-top: 32px;
+        }
+
+        .book-placeholder {
+            aspect-ratio: 2/3;
+            background: var(--color-bg-warm);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            border: 2px dashed var(--color-border);
+        }
+
+        @media (max-width: 768px) {
+            .library-book-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- AUTH MODAL -->
+    <div class="modal-overlay hidden" id="auth-modal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeAuthModal()">✕</button>
+            <div class="modal-title">Войти</div>
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="login" onclick="switchTab('login')">Войти</button>
+                <button class="tab-btn" data-tab="register" onclick="switchTab('register')">Регистрация</button>
+            </div>
+            <div class="tab-content" data-tab="login">
+                <form onsubmit="handleLogin(event)">
+                    <div class="form-group"><label class="form-label">Email</label><input class="form-input"
+                            id="login-email" type="email" required></div>
+                    <div class="form-group"><label class="form-label">Пароль</label><input class="form-input"
+                            id="login-password" type="password" required></div>
+                    <button type="submit" class="btn btn-primary" style="width:100%">Войти</button>
+                </form>
+            </div>
+            <div class="tab-content" data-tab="register" style="display:none">
+                <form onsubmit="handleRegister(event)">
+                    <div class="form-group"><label class="form-label">Имя</label><input class="form-input" id="reg-name"
+                            type="text" required></div>
+                    <div class="form-group"><label class="form-label">Email</label><input class="form-input"
+                            id="reg-email" type="email" required></div>
+                    <div class="form-group"><label class="form-label">Пароль</label><input class="form-input"
+                            id="reg-password" type="password" minlength="6" required></div>
+                    <button type="submit" class="btn btn-primary" style="width:100%">Зарегистрироваться</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- HEADER -->
+    <header class="site-header">
+        <div class="container">
+            <div class="header-inner">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon"></div>
+                    <div class="logo-text">Жизни Смысл<span>Онлайн школа</span></div>
+                </a>
+                <nav class="nav-menu">
+                    <a href="index.html">Главная</a>
+                    <a href="index.html#courses">Курсы</a>
+                    <a href="partners.html" class="active">Проекты</a>
+                    <a href="about.html">О проекте</a>
+                    <a href="contacts.html">Контакты</a>
+                </nav>
+                <div class="header-actions" id="header-auth-area"></div>
+                <button class="hamburger" onclick="toggleMobileMenu()"><span></span><span></span><span></span></button>
+            </div>
+        </div>
+    </header>
+
+    <nav class="mobile-nav" id="mobile-nav">
+        <a href="index.html">Главная</a>
+        <a href="index.html#courses">Курсы</a>
+        <a href="partners.html">Партнёры</a>
+        <a href="about.html">О проекте</a>
+    </nav>
+
+    <!-- HERO -->
+    <div class="partners-hero">
+        <div class="container">
+            <nav class="breadcrumbs" style="justify-content:center;margin:0 0 24px;">
+                <a href="index.html">Главная</a><span class="sep">›</span>
+                <span class="current">Партнёрские проекты</span>
+            </nav>
+            <div class="section-label">Экосистема проекта</div>
+            <h1 style="font-family:var(--font-serif);font-size:clamp(2rem,5vw,3.5rem);margin:12px 0 16px;">Наши
+                партнёрские проекты</h1>
+            <p style="max-width:560px;margin:0 auto;color:var(--color-text-secondary);font-size:17px;">Помимо курсов, мы
+                развиваем несколько проектов для духовного роста</p>
+        </div>
+    </div>
+
+    <!-- SECTION 1: PUBLICS -->
+    <section class="section" id="publics">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Социальные сети</span>
+                <h2 class="section-title">Паблики о христианстве</h2>
+                <p class="section-desc">Подписывайтесь на наши каналы в социальных сетях. Ежедневные посты о вере,
+                    Библии и христианской жизни.</p>
+            </div>
+
+            <div class="channel-grid">
+                <!-- Telegram: Main Decision -->
+                <div class="channel-card">
+                    <div class="channel-logo" style="background:linear-gradient(135deg,#27a7e7,#1c7abf);">✈</div>
+                    <h3 class="channel-name">Главное Решение</h3>
+                    <p class="channel-desc">Паблик о христианстве в Telegram. Мысли о Боге, вере, жизни и Библии каждый
+                        день.</p>
+                    <div class="channel-meta">Telegram · @maindecision</div>
+                    <a href="https://t.me/maindecision" target="_blank" class="btn btn-primary" style="width:100%;">
+                        ✈ Подписаться в Telegram
+                    </a>
+                </div>
+
+                <!-- VK -->
+                <div class="channel-card">
+                    <div class="channel-logo" style="background:linear-gradient(135deg,#4680c2,#2d5ea3);">VK</div>
+                    <h3 class="channel-name">ВКонтакте</h3>
+                    <p class="channel-desc">Наше сообщество ВКонтакте. Статьи, видео и посты о христианской вере на
+                        русском языке.</p>
+                    <div class="channel-meta">ВКонтакте · Жизни Смысл</div>
+                    <a href="#" class="btn btn-outline" style="width:100%;">Подписаться</a>
+                </div>
+
+                <!-- YouTube -->
+                <div class="channel-card">
+                    <div class="channel-logo" style="background:linear-gradient(135deg,#ff4444,#cc0000);">▶</div>
+                    <h3 class="channel-name">YouTube</h3>
+                    <p class="channel-desc">Видеолекции и уроки о Библии. Смотрите курсы в удобном формате на YouTube.
+                    </p>
+                    <div class="channel-meta">YouTube · Жизни Смысл</div>
+                    <a href="#" class="btn btn-outline" style="width:100%;">Подписаться</a>
+                </div>
+
+                <!-- Rutube -->
+                <div class="channel-card">
+                    <div class="channel-logo" style="background:linear-gradient(135deg,#1a1a2e,#16213e);">📺</div>
+                    <h3 class="channel-name">Rutube</h3>
+                    <p class="channel-desc">Все видеоуроки также доступны на Rutube. Российская видеоплатформа без
+                        ограничений.</p>
+                    <div class="channel-meta">Rutube · Жизни Смысл</div>
+                    <a href="#" class="btn btn-outline" style="width:100%;">Подписаться</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: LIBRARY -->
+    <section class="section" id="library" style="background:var(--color-bg-warm);">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Книги</span>
+                <h2 class="section-title">Христианская Библиотека</h2>
+                <p class="section-desc">Библиотека христианской литературы с возможностью читать онлайн</p>
+            </div>
+
+            <div class="library-placeholder">
+                <div style="font-size:72px;margin-bottom:20px;">📚</div>
+                <h3 style="font-family:var(--font-serif);font-size:28px;margin-bottom:12px;">Скоро открытие!</h3>
+                <p style="color:var(--color-text-secondary);max-width:480px;margin:0 auto 24px;font-size:16px;">
+                    В дальнейшем библиотека будет наполняться книгами с возможностью читать онлайн.
+                    Классическая и современная христианская литература.
+                </p>
+                <div
+                    style="display:inline-flex;align-items:center;gap:8px;background:var(--color-bg-warm);padding:10px 20px;border-radius:99px;font-size:14px;color:var(--color-primary);border:1px solid var(--color-border);">
+                    🔔 Уведомить при открытии
+                </div>
+
+                <div class="library-book-grid" style="max-width:400px;margin:32px auto 0;">
+                    <div class="book-placeholder">📖</div>
+                    <div class="book-placeholder">📖</div>
+                    <div class="book-placeholder">📖</div>
+                    <div class="book-placeholder">📖</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: NEWSPAPER -->
+    <section class="section" id="newspaper">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Издание</span>
+                <h2 class="section-title">Газета «Веришь ли ты»</h2>
+                <p class="section-desc">Христианская газета о вере, жизни и Библии</p>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;">
+                <div>
+                    <div
+                        style="background:linear-gradient(135deg,var(--color-bg-warm),var(--color-bg-card));border-radius:var(--radius-xl);padding:48px;text-align:center;border:1px solid var(--color-border);">
+                        <div style="font-size:72px;margin-bottom:16px;">📰</div>
+                        <div style="font-family:var(--font-serif);font-size:24px;margin-bottom:4px;">«Веришь ли ты»
+                        </div>
+                        <div style="font-size:14px;color:var(--color-text-secondary);">Христианская газета</div>
+                    </div>
+                </div>
+                <div>
+                    <h3 style="font-family:var(--font-serif);font-size:28px;margin-bottom:16px;">Христианская газета
+                    </h3>
+                    <p style="color:var(--color-text-secondary);line-height:1.75;margin-bottom:20px;font-size:16px;">
+                        Газета «Веришь ли ты» — издание о вере, жизни и библейских истинах.
+                        Вдохновляющие статьи, свидетельства и размышления о христианской жизни.
+                    </p>
+                    <p style="color:var(--color-text-secondary);line-height:1.75;margin-bottom:32px;font-size:16px;">
+                        Читайте интересные материалы о том, как вера меняет жизнь людей,
+                        библейские исследования и практические советы для христианской жизни.
+                    </p>
+                    <a href="https://www.xn--b1agjao2ar9b4ag.xn--p1ai/" target="_blank" class="btn btn-primary btn-lg">
+                        Перейти на сайт ↗
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <div class="logo-icon"></div>
+                        <div class="logo-text">Жизни Смысл<span>Онлайн школа</span></div>
+                    </a>
+                    <p>Бесплатная онлайн-школа библейского образования</p>
+                    <div class="footer-socials">
+                        <a href="https://t.me/maindecision" target="_blank" class="footer-social">✈</a>
+                        <a href="mailto:lifesmeaning@yandex.ru" class="footer-social">✉</a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h5>Курсы</h5>
+                    <ul>
+                        <li><a href="course.html?id=panorama">Панорама Библии</a></li>
+                        <li><a href="course.html?id=uniqueness">Уникальность Библии</a></li>
+                        <li><a href="course.html?id=family">Институт семьи</a></li>
+                        <li><a href="course.html?id=silence">Молчание Бога</a></li>
+                        <li><a href="course.html?id=summary">Краткое содержание</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h5>Проекты</h5>
+                    <ul>
+                        <li><a href="partners.html#publics">Паблики</a></li>
+                        <li><a href="partners.html#library">Библиотека</a></li>
+                        <li><a href="https://www.xn--b1agjao2ar9b4ag.xn--p1ai/" target="_blank">Газета</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h5>Школа</h5>
+                    <ul>
+                        <li><a href="about.html">О проекте</a></li>
+                        <li><a href="contacts.html">Контакты</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2024 Жизни Смысл</span>
+                <span>lifesmeaning@yandex.ru</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Жизни Смысл — Онлайн христианская школа</title>
+  <meta name="description" content="Бесплатные онлайн-курсы о Библии и христианстве. Изучайте Священное Писание с профессиональным наставником.">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Page-specific styles */
+    .hero-quote {
+      font-family: var(--font-serif);
+      font-size: 1rem;
+      font-style: italic;
+      color: var(--color-text-light);
+      margin-top: 16px;
+    }
+
+    /* Course cover illustrations */
+    .course-cover-panorama { background: linear-gradient(135deg, #E8D5C0, #C8A882); }
+    .course-cover-uniqueness { background: linear-gradient(135deg, #C8D8E8, #A0B8CC); }
+    .course-cover-family { background: linear-gradient(135deg, #C8D8B8, #A0C090); }
+    .course-cover-silence { background: linear-gradient(135deg, #D4C8D8, #B0A0B8); }
+    .course-cover-summary { background: linear-gradient(135deg, #D8CDB8, #C0A888); }
+
+    .course-cover-icon {
+      font-size: 64px;
+      opacity: 0.8;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.1));
+    }
+
+    .course-lessons-badge {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(8px);
+      padding: 6px 12px;
+      border-radius: 99px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-primary);
+    }
+
+    /* Features section */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .feature-item {
+      text-align: center;
+      padding: 32px 20px;
+      background: var(--color-bg-card);
+      border-radius: var(--radius-lg);
+    }
+
+    .feature-icon {
+      font-size: 40px;
+      margin-bottom: 16px;
+    }
+
+    .feature-title {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .feature-desc {
+      font-size: 14px;
+      color: var(--color-text-secondary);
+    }
+
+    /* How to start */
+    .steps-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+
+    .step {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .step-num {
+      width: 48px;
+      height: 48px;
+      background: var(--color-primary);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-serif);
+      font-size: 22px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .step-content h4 {
+      font-family: var(--font-sans);
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .step-content p {
+      font-size: 14px;
+    }
+
+    /* CTA Section */
+    .cta-section {
+      background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+      color: white;
+      text-align: center;
+      padding: 80px 0;
+    }
+
+    .cta-section h2 {
+      color: white;
+      margin-bottom: 16px;
+    }
+
+    .cta-section p {
+      color: rgba(255,255,255,0.8);
+      margin-bottom: 32px;
+      font-size: 18px;
+    }
+
+    .cta-section .btn-primary {
+      background: white;
+      color: var(--color-primary);
+    }
+
+    .cta-section .btn-primary:hover {
+      background: rgba(255,255,255,0.9);
+    }
+
+    /* Partners section */
+    .partners-section {
+      background: var(--color-bg-warm);
+    }
+
+    @media (max-width: 768px) {
+      .features-grid { grid-template-columns: 1fr 1fr; }
+      .steps-list { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      .features-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- AUTH MODAL -->
+<div class="modal-overlay hidden" id="auth-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeAuthModal()">✕</button>
+    <div class="modal-title">Добро пожаловать</div>
+    <div class="modal-subtitle">в онлайн-школу «Жизни Смысл»</div>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="login" onclick="switchTab('login')">Войти</button>
+      <button class="tab-btn" data-tab="register" onclick="switchTab('register')">Регистрация</button>
+    </div>
+
+    <div class="tab-content" data-tab="login">
+      <form onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input class="form-input" id="login-email" type="email" placeholder="ваш@email.ru" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Пароль</label>
+          <input class="form-input" id="login-password" type="password" placeholder="Пароль" required>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%">Войти</button>
+      </form>
+    </div>
+
+    <div class="tab-content" data-tab="register" style="display:none">
+      <form onsubmit="handleRegister(event)">
+        <div class="form-group">
+          <label class="form-label">Ваше имя</label>
+          <input class="form-input" id="reg-name" type="text" placeholder="Имя Фамилия" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input class="form-input" id="reg-email" type="email" placeholder="ваш@email.ru" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Пароль</label>
+          <input class="form-input" id="reg-password" type="password" placeholder="Минимум 6 символов" minlength="6" required>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%">Создать аккаунт</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toast-container"></div>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="container">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <div class="logo-icon"></div>
+        <div class="logo-text">
+          Жизни Смысл
+          <span>Онлайн школа</span>
+        </div>
+      </a>
+
+      <nav class="nav-menu">
+        <a href="index.html" class="active">Главная</a>
+        <a href="index.html#courses">Курсы</a>
+        <a href="index.html#how-to-start">Как начать</a>
+        <a href="partners.html">Проекты</a>
+        <a href="about.html">О проекте</a>
+        <a href="contacts.html">Контакты</a>
+      </nav>
+
+      <div class="header-actions" id="header-auth-area"></div>
+      <button class="hamburger" onclick="toggleMobileMenu()">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- MOBILE NAV -->
+<nav class="mobile-nav" id="mobile-nav">
+  <a href="index.html">🏠 Главная</a>
+  <a href="index.html#courses">📖 Курсы</a>
+  <a href="partners.html">🤝 Партнёры</a>
+  <a href="about.html">ℹ️ О проекте</a>
+  <a href="contacts.html">📧 Контакты</a>
+  <a href="#" onclick="openAuthModal('login')" class="btn btn-primary" style="margin-top:12px;">Войти</a>
+</nav>
+
+<!-- HERO SECTION -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-content">
+        <div class="hero-badge">
+          ✝️ Бесплатная онлайн-школа
+        </div>
+        <h1 class="hero-title">
+          <em>Жизни Смысл</em> —<br>
+          онлайн курсы
+        </h1>
+        <p class="hero-desc">
+          Краткое, но информативное путешествие по Библии. 
+          Концентрированный и доступный материал, который позволит 
+          вам за несколько часов познакомиться с сутью христианства 
+          и основными событиями Священного Писания.
+        </p>
+        <div class="hero-actions">
+          <a href="index.html#courses" class="btn btn-primary btn-lg">Начать обучение</a>
+          <a href="about.html" class="btn btn-outline btn-lg">О проекте</a>
+        </div>
+        <p class="hero-quote">«Слово Твоё — светильник ноге моей и свет стезе моей» — Пс 118:105</p>
+
+        <div class="hero-stats">
+          <div>
+            <div class="hero-stat-num">5</div>
+            <div class="hero-stat-label">курсов</div>
+          </div>
+          <div>
+            <div class="hero-stat-num">100+</div>
+            <div class="hero-stat-label">уроков</div>
+          </div>
+          <div>
+            <div class="hero-stat-num">500+</div>
+            <div class="hero-stat-label">студентов</div>
+          </div>
+          <div>
+            <div class="hero-stat-num">0 ₽</div>
+            <div class="hero-stat-label">стоимость</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <img src="Библия с солнышком.png" 
+             alt="Библия" 
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+        <div style="display:none;width:320px;height:320px;background:var(--color-bg-warm);border-radius:50%;align-items:center;justify-content:center;font-size:120px;">📖</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES SECTION -->
+<section class="section-sm" style="background:var(--color-bg-light);">
+  <div class="container">
+    <div class="features-grid">
+      <div class="feature-item">
+        <div class="feature-icon">📖</div>
+        <div class="feature-title">Библия доступно</div>
+        <p class="feature-desc">Сложные темы объяснены простым языком без лишней терминологии</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🧑‍🏫</div>
+        <div class="feature-title">Личный наставник</div>
+        <p class="feature-desc">К каждому студенту прикрепляется наставник для поддержки</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-title">Бесплатно</div>
+        <p class="feature-desc">Все курсы предоставляются совершенно бесплатно для всех</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🏆</div>
+        <div class="feature-title">Сертификат</div>
+        <p class="feature-desc">По окончании курса вы получите именной сертификат</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COURSES SECTION -->
+<section class="section" id="courses">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Программа обучения</span>
+      <h2 class="section-title">Наши курсы</h2>
+      <p class="section-desc">Выберите курс, который подходит именно вам, и начните своё духовное путешествие</p>
+
+      <div class="search-bar" style="margin: 24px auto 0; max-width: 400px;">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="site-search" placeholder="Поиск по курсам...">
+      </div>
+    </div>
+
+    <div class="courses-grid" id="courses-grid">
+      <!-- Курс 1: Панорама Библии -->
+      <div class="card searchable">
+        <div class="card-cover course-cover-panorama">
+          <span class="course-cover-icon">📖</span>
+          <span class="course-lessons-badge">11 уроков</span>
+        </div>
+        <div class="card-body">
+          <span class="card-tag">🕊️ Основы христианства</span>
+          <h3 class="card-title">Панорама Библии</h3>
+          <p class="card-desc">Краткое, но информативное путешествие по Библии. Познакомьтесь с сутью христианства и основными событиями Священного Писания.</p>
+          <div class="card-footer">
+            <span class="card-meta">⏱ Несколько часов</span>
+            <a href="course.html?id=panorama" class="btn btn-ghost btn-sm">Подробнее →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Курс 2: Уникальность Библии -->
+      <div class="card searchable">
+        <div class="card-cover course-cover-uniqueness">
+          <span class="course-cover-icon">✨</span>
+          <span class="course-lessons-badge">4 урока</span>
+        </div>
+        <div class="card-body">
+          <span class="card-tag">📜 О Библии</span>
+          <h3 class="card-title">Уникальность Библии</h3>
+          <p class="card-desc">Узнайте, как и кем Библия была написана, передавалась и сохранялась. Как начать читать Библию, если вы новичок.</p>
+          <div class="card-footer">
+            <span class="card-meta">⏱ 2–3 часа</span>
+            <a href="course.html?id=uniqueness" class="btn btn-ghost btn-sm">Подробнее →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Курс 3: Институт семьи -->
+      <div class="card searchable">
+        <div class="card-cover course-cover-family">
+          <span class="course-cover-icon">👨‍👩‍👧</span>
+          <span class="course-lessons-badge">3 урока</span>
+        </div>
+        <div class="card-body">
+          <span class="card-tag">🏡 Семья и отношения</span>
+          <h3 class="card-title">Институт семьи</h3>
+          <p class="card-desc">Тема здоровых доверительных отношений, взаимоуважения и верности волнует всех. Курс о христианском взгляде на семью.</p>
+          <div class="card-footer">
+            <span class="card-meta">⏱ 1–2 часа</span>
+            <a href="course.html?id=family" class="btn btn-ghost btn-sm">Подробнее →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Курс 4: Молчание Бога -->
+      <div class="card searchable">
+        <div class="card-cover course-cover-silence">
+          <span class="course-cover-icon">🕊️</span>
+          <span class="course-lessons-badge">2 урока</span>
+        </div>
+        <div class="card-body">
+          <span class="card-tag">🙏 Духовный опыт</span>
+          <h3 class="card-title">Молчание Бога</h3>
+          <p class="card-desc">Бог молчит уже давно — или это мы разучились Его слышать? Заглянем в тишину, пройдём путь Иова и Давида, откроем Псалом 40.</p>
+          <div class="card-footer">
+            <span class="card-meta">⏱ 1 час</span>
+            <a href="course.html?id=silence" class="btn btn-ghost btn-sm">Подробнее →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Курс 5: Краткое содержание Библии -->
+      <div class="card searchable">
+        <div class="card-cover course-cover-summary">
+          <span class="course-cover-icon">📚</span>
+          <span class="course-lessons-badge">80 уроков</span>
+        </div>
+        <div class="card-body">
+          <span class="card-tag">📋 Обзор Библии</span>
+          <h3 class="card-title">Краткое содержание Библии</h3>
+          <p class="card-desc">Путешествие по всем книгам Библии в коротких обзорах: узнайте суть каждой книги и увидите целостную картину Священного Писания.</p>
+          <div class="card-footer">
+            <span class="card-meta">⏱ 10–15 часов</span>
+            <a href="course.html?id=summary" class="btn btn-ghost btn-sm">Подробнее →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW TO START SECTION -->
+<section class="section" id="how-to-start" style="background:var(--color-bg-warm);">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Начало обучения</span>
+      <h2 class="section-title">Как начать обучение?</h2>
+    </div>
+
+    <div class="steps-list">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>Ознакомьтесь с программой</h4>
+          <p>Выберите курс, который вам интересен, и прочитайте его описание и программу</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>Обучайтесь с удовольствием</h4>
+          <p>Смотрите видеоуроки, выполняйте задания и задавайте вопросы наставнику</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>Получите сертификат</h4>
+          <p>По окончании курса вы получите именной сертификат о прохождении обучения</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:48px;background:white;border-radius:var(--radius-xl);padding:40px;border:1px solid var(--color-border);">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;">
+        <div>
+          <h3 style="font-family:var(--font-serif);margin-bottom:16px;">Личный наставник</h3>
+          <p style="margin-bottom:16px;">Чтобы вам было комфортнее и интереснее учиться, мы прикрепим к вам наставника. Это человек, который будет рядом на протяжении всего курса. Вы сможете задавать ему любые вопросы.</p>
+          <p>Если вам важно самостоятельно изучать материалы, дайте нам знать, и мы открепим от вас наставника. Вы всегда можете передумать и снова обратиться к его поддержке.</p>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:80px;margin-bottom:16px;">🧑‍🏫</div>
+          <div style="font-family:var(--font-serif);font-size:22px;margin-bottom:4px;">Евгений Сафонов</div>
+          <div style="font-size:14px;color:var(--color-text-secondary);">Наставник</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARTNERS SECTION -->
+<section class="section partners-section" id="partners">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Экосистема</span>
+      <h2 class="section-title">Наши партнёрские проекты</h2>
+      <p class="section-desc">Всё для вашего духовного роста и изучения Библии</p>
+    </div>
+
+    <div class="partners-grid">
+      <div class="partner-card">
+        <div class="partner-icon">📣</div>
+        <h3 class="partner-name">Паблики о христианстве</h3>
+        <p class="partner-desc">Подписывайтесь на наши каналы в социальных сетях. Ежедневные посты о Библии, вере и христианской жизни.</p>
+        <a href="partners.html#publics" class="btn btn-ghost" style="width:100%;">Перейти</a>
+      </div>
+
+      <div class="partner-card">
+        <div class="partner-icon">📚</div>
+        <h3 class="partner-name">Христианская Библиотека</h3>
+        <p class="partner-desc">В дальнейшем будет наполняться книгами с возможностью читать онлайн. Скоро открытие!</p>
+        <a href="partners.html#library" class="btn btn-ghost" style="width:100%;">Скоро открытие</a>
+      </div>
+
+      <div class="partner-card">
+        <div class="partner-icon">📰</div>
+        <h3 class="partner-name">Газета «Веришь ли ты»</h3>
+        <p class="partner-desc">Христианская газета о вере и жизни. Вдохновляющие статьи и свидетельства.</p>
+        <a href="https://www.xn--b1agjao2ar9b4ag.xn--p1ai/" target="_blank" class="btn btn-ghost" style="width:100%;">Перейти на сайт ↗</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS SECTION -->
+<section class="section" style="background:var(--color-bg-light);">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Отзывы</span>
+      <h2 class="section-title">Что говорят студенты</h2>
+    </div>
+
+    <div class="reviews-slider">
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">«Очень понравился формат обучения с наставником. Мог задавать вопросы и получал чёткие, понятные ответы. Курс открыл мне совершенно новый взгляд на Библию.»</p>
+        <div class="review-author">
+          <div class="review-avatar">👤</div>
+          <div>
+            <div class="review-name">Вячеслав</div>
+            <div class="review-meta">Студент курса «Панорама Библии»</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">«Я думал, что Библия — это просто древние рукописи. Курс изменил моё отношение к этой книге. Теперь я понимаю, почему она актуальна сегодня.»</p>
+        <div class="review-author">
+          <div class="review-avatar">👤</div>
+          <div>
+            <div class="review-name">Владислав, 41 год</div>
+            <div class="review-meta">Москва</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">«Курс помог мне понять, кем был Иисус и почему Его смерть и воскресение имеют такое значение. Очень доступно и глубоко одновременно.»</p>
+        <div class="review-author">
+          <div class="review-avatar">👤</div>
+          <div>
+            <div class="review-name">Наталья, 32 года</div>
+            <div class="review-meta">Новгород</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA SECTION -->
+<section class="cta-section">
+  <div class="container">
+    <h2>Готовы начать своё путешествие?</h2>
+    <p>Присоединяйтесь к тысячам студентов, которые уже изучают Библию онлайн</p>
+    <button class="btn btn-primary btn-lg" onclick="openAuthModal('register')">Записаться бесплатно</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo">
+          <div class="logo-icon"></div>
+          <div class="logo-text">
+            Жизни Смысл
+            <span>Онлайн школа</span>
+          </div>
+        </a>
+        <p>Бесплатная онлайн-школа, где каждый может познакомиться с Библией и христианством в доступном формате.</p>
+        <div class="footer-socials">
+          <a href="https://t.me/maindecision" target="_blank" class="footer-social">✈</a>
+          <a href="#" class="footer-social">VK</a>
+          <a href="mailto:lifesmeaning@yandex.ru" class="footer-social">✉</a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h5>Курсы</h5>
+        <ul>
+          <li><a href="course.html?id=panorama">Панорама Библии</a></li>
+          <li><a href="course.html?id=uniqueness">Уникальность Библии</a></li>
+          <li><a href="course.html?id=family">Институт семьи</a></li>
+          <li><a href="course.html?id=silence">Молчание Бога</a></li>
+          <li><a href="course.html?id=summary">Краткое содержание</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Проекты</h5>
+        <ul>
+          <li><a href="partners.html#publics">Паблики</a></li>
+          <li><a href="partners.html#library">Библиотека</a></li>
+          <li><a href="https://www.xn--b1agjao2ar9b4ag.xn--p1ai/" target="_blank">Газета</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Школа</h5>
+        <ul>
+          <li><a href="about.html">О проекте</a></li>
+          <li><a href="contacts.html">Контакты</a></li>
+          <li><a href="#" onclick="openAuthModal('login')">Войти</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2024 Жизни Смысл. Бесплатная онлайн-школа.</span>
+      <span>lifesmeaning@yandex.ru</span>
+    </div>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
